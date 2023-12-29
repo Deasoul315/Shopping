@@ -6,37 +6,13 @@ import com.example.demo.models.Database;
 import com.example.demo.models.Order;
 import com.example.demo.models.Product;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Vector;
-
+@RestController
+@RequestMapping("/account")
 public class AccountCreateView {
-    private String username;
-    private double balance;
-    private String lang;
-
-    // Constructor
-
-    public AccountCreateView() {
-    }
-
-
-    @Value("${street}")
-    public void setStreet(String username ) {
-        this.username = username;
-    }
-
-    @Value("${city}")
-    public void setCity( String lang) {
-        this.lang= lang;
-    }
-    public void setBalance( double balance) {
-        this.balance = balance;
-    }
-
-
 
     // Validation function
     private boolean validate(Customer customer) {
@@ -46,19 +22,30 @@ public class AccountCreateView {
     }
 
     // Endpoint for browsing products
-    @PostMapping("/account")
-    public String account(@RequestBody Customer customer) {
+    @PostMapping("/create")
+    public String create(@RequestBody Customer customer) {
 
         if (validate(customer)) {
-            Database DB=Database.getInstance();
+            Database DB = Database.getInstance();
             DB.addCustomer(customer);
 
-            return "SUCC" ;
+            return "SUCC";
         } else {
 
             return "FAILL";
         }
     }
-}
 
+    @GetMapping("/get")
+    public Map<Integer,Customer> get() {
+
+//        if (validate(customer)) {
+          Database db=Database.getInstance();
+
+
+        return db.getCustomers();
+
+
+    }
+}
 

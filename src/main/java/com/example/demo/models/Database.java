@@ -13,6 +13,26 @@ public class Database {
     private Map<Integer, CompoundOrder> compoundOrders;
     private Map<Integer, Category> categories;
 
+    public Map<Integer, Product> getProducts() {
+        return products;
+    }
+
+    public Map<Integer, Customer> getCustomers() {
+        return customers;
+    }
+
+    public Map<Integer, Order> getOrders() {
+        return orders;
+    }
+
+    public Map<Integer, CompoundOrder> getCompoundOrders() {
+        return compoundOrders;
+    }
+
+    public Map<Integer, Category> getCategories() {
+        return categories;
+    }
+
     private Database() {
         // Initialize data structures
         products = new HashMap<>();
@@ -78,7 +98,7 @@ public class Database {
     }
 
     // Initialize sample data
-    private void initializeSampleData() {
+    public void initializeSampleData() {
         Category electronics = new Category("Electronics");
         Category clothing = new Category("Clothing");
         Category kitchen = new Category("Kitchen");
