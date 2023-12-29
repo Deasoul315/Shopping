@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.models.Customer;
 
-public class FrenchShippingOrderTemplate implements IShippingOrderTemplate,TemplateSubstitute{
+public class FrenchShippingOrderTemplate implements IShippingOrderTemplate{
     @Override
     public String substitute(Customer customer) {
         return "Cher "+ customer.getUsername() +", votre expédition est terminée.";

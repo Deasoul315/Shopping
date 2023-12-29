@@ -6,5 +6,5 @@ import com.example.demo.models.Product;
 import java.util.Vector;
 
 public interface IPlacingOrderTemplate {
-
+    public String substitute(Customer customer, Vector<Product> products);
 }

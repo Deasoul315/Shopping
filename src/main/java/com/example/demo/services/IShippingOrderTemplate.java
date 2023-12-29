@@ -7,5 +7,5 @@ import java.util.Vector;
 
 public interface IShippingOrderTemplate {
 
-
+    public String substitute(Customer customer);
 }

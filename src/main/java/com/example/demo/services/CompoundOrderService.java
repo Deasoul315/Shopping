@@ -27,7 +27,7 @@ public class CompoundOrderService implements IOrderService{
 
             Database DB = Database.getInstance();
 
-            CompoundOrder co= new CompoundOrder(orders);
+            CompoundOrder co= new CompoundOrder(orders, orders.get(0).getCustomer());
             DB.addCompoundOrder(co);
 
             return true;

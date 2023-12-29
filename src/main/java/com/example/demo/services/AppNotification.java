@@ -11,7 +11,7 @@ public class AppNotification implements INotifier{
         this.customer=customer;
     }
     @Override
-    public String send(TemplateSubstitute template) {
+    public String send(String template) {
         return "sending to application notifications\n";
     }
 }

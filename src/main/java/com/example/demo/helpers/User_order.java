@@ -7,7 +7,15 @@ public class User_order {
     private String username;
 
     private String location;
+    private String channel;
 
+    public Vector<Pair<String, Integer>> getProduct() {
+        return product;
+    }
+
+    public void setProduct(Vector<Pair<String, Integer>> product) {
+        this.product = product;
+    }
 
     public String getUsername() {
         return username;
@@ -25,12 +33,12 @@ public class User_order {
         this.location = location;
     }
 
-    public String getChannal() {
-        return channal;
+    public String getChannel() {
+        return channel;
     }
 
-    public void setChannal(String channal) {
-        this.channal = channal;
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public String getLanguage() {
@@ -41,26 +49,24 @@ public class User_order {
         this.language = language;
     }
 
-    private String channal;
-
-
-
-    public User_order(Vector<Pair<String,Integer>> product, String username, String location, String channal, String language) {
+    public User_order(Vector<Pair<String, Integer>> product, String username, String location, String channel, String language) {
         this.product = product;
         this.username = username;
         this.location = location;
-        this.channal = channal;
+        this.channel = channel;
         this.language = language;
     }
 
-    public Vector<Pair<String,Integer>> getProduct() {
-        return product;
-    }
-
-    public void setProduct(Vector<Pair<String,Integer>> product) {
-        this.product = product;
-    }
-
     private String language;
+
+
+    public String toString() {
+        return "UserOrder{" +
+                "username='" + username + '\'' +
+                ", location='" + location + '\'' +
+                ", channel='" + channel + '\'' +
+                ", language='" + language + '\'' +
+                '}';
+    }
 
 }

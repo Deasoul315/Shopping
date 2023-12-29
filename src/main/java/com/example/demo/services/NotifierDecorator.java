@@ -10,7 +10,7 @@ public abstract class NotifierDecorator implements INotifier {
     }
 
     @Override
-    public String send (TemplateSubstitute template) {
+    public String send (String template) {
         wrapped.send(template);
         return "";
     }

@@ -4,7 +4,7 @@ import com.example.demo.helpers.Pair;
 import java.util.Vector;
 
 public class Order {
-    private Vector<Pair<Product, Integer>> reciet;
+    private Vector<Pair<Product, Integer>> reciet = new Vector<Pair<Product, Integer>>();
 
 
     private String location;
