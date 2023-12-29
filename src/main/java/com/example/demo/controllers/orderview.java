@@ -1,58 +1,41 @@
 package com.example.demo.controllers;
 
-import com.example.demo.helpers.Pair;
-//import com.example.demo.models.Category;
+import com.example.demo.models.Customer;
+import com.example.demo.models.Database;
 import com.example.demo.models.Order;
 import com.example.demo.models.Product;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Vector;
-
-    class Orderview {
-
-    private Vector<Pair<Product, Integer>> reciet;
-    private boolean status;
-
-
-    // Constructor
-
-    public Orderview() {
-    }
-
-
-    @Value("${street}")
-    public void setStreet( Vector<Pair<Product, Integer>> reciet) {
-        this.reciet = reciet;
-    }
-
-    @Value("${city}")
-    public void setCity( boolean status) {
-        this.status = status;
-    }
-
-
-
-    // Validation function
-    private boolean validate() {
+import java.util.Map;
+@RestController
+@RequestMapping("/order")
+public class orderview {
+    private boolean validate(Order order) {
         // Add your validation logic here
         // For simplicity, let's assume the validation always passes in this example
         return true;
     }
 
-    // Endpoint for browsing products
-    @GetMapping("/orderview")
-    public Order orderview() {
-        if (validate()) {
+    @PostMapping("/create")
+    public String create(@RequestBody Order order) {
 
-            return new Order(reciet, status );
+        if (validate(order)) {
+            Database DB = Database.getInstance();
+            DB.addOrder(order);
+
+            return "SUCC";
         } else {
 
-            return null;
+            return "FAILL";
         }
     }
+
+    @GetMapping("/get")
+    public Map<Integer, Order> browseProduct() {
+
+        Database db=Database.getInstance();
+
+
+        return db.getOrders();
+    }
 }
-
-
-
-
