@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.helpers.Pair;
 import com.example.demo.models.Customer;
+import com.example.demo.models.Database;
 import com.example.demo.models.Order;
 import com.example.demo.models.Product;
 
@@ -23,6 +24,8 @@ public class SimpleOrderService implements IOrderService{
         Customer customer = orders.get(0).getCustomer();
         if (totalPrice <= customer.getBalance()) {
             customer.setBalance(customer.getBalance() - totalPrice);
+            Database DB = Database.getInstance();
+            DB.addOrder(orders.get(0));
             return true;
         } else {
             return false;

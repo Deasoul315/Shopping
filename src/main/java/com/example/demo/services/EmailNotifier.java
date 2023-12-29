@@ -6,7 +6,7 @@ public class EmailNotifier extends NotifierDecorator{
     }
 
     @Override
-    public String send(ITemplate template) {
+    public String send(TemplateSubstitute template) {
         super.send(template);
         return "email sent " + "\n";
     }

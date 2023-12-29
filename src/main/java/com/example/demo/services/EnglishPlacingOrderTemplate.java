@@ -5,7 +5,7 @@ import com.example.demo.models.Product;
 
 import java.util.Vector;
 
-public class EnglishPlacingOrderTemplate implements IPlacingOrderTemplate{
+public class EnglishPlacingOrderTemplate implements IPlacingOrderTemplate,TemplateSubstitute{
 
     @Override
     public String substitute(Customer customer, Vector<Product> products) {

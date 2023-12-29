@@ -1,9 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.helpers.Pair;
-import com.example.demo.models.Customer;
-import com.example.demo.models.Order;
-import com.example.demo.models.Product;
+import com.example.demo.models.*;
 
 import java.util.Vector;
 
@@ -17,6 +15,7 @@ public class CompoundOrderService implements IOrderService{
             for (int j = 0; j < receipt.size(); j++) {
                 totalPrice += receipt.get(j).getFirst().getPrice() * receipt.get(j).getSecond();
             }
+
         }
 
         //calculations based on distances between countries
@@ -25,6 +24,12 @@ public class CompoundOrderService implements IOrderService{
         Customer customer = orders.get(0).getCustomer();
         if (totalPrice <= customer.getBalance()) {
             customer.setBalance(customer.getBalance() - totalPrice);
+
+            Database DB = Database.getInstance();
+
+            CompoundOrder co= new CompoundOrder(orders);
+            DB.addCompoundOrder(co);
+
             return true;
         } else {
             return false;

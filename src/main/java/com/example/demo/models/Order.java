@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class Order {
     private Vector<Pair<Product, Integer>> reciet;
-    private boolean status;
+
 
     private String location;
 
@@ -33,18 +33,12 @@ public class Order {
     public void setReciet(Vector<Pair<Product, Integer>> reciet) {
         this.reciet = reciet;
     }
-    public boolean isStatus() {
-        return status;
-    }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+    public Order(){}
 
 
-    public Order(Vector<Pair<Product, Integer>> reciet, boolean status, String location, Customer customer) {
+    public Order(Vector<Pair<Product, Integer>> reciet, String location, Customer customer) {
         this.reciet = reciet;
-        this.status = status;
         this.location = location;
         this.customer = customer;
     }

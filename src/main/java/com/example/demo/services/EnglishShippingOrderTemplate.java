@@ -5,7 +5,7 @@ import com.example.demo.models.Product;
 
 import java.util.Vector;
 
-public class EnglishShippingOrderTemplate implements IShippingOrderTemplate{
+public class EnglishShippingOrderTemplate implements IShippingOrderTemplate,TemplateSubstitute{
     @Override
     public String substitute(Customer customer) {
         return "Dear " + customer.getUsername() + " your shipment is completed";

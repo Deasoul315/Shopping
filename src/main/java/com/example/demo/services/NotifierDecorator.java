@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Customer;
+
 public abstract class NotifierDecorator implements INotifier {
     private INotifier wrapped;
 
@@ -8,7 +10,7 @@ public abstract class NotifierDecorator implements INotifier {
     }
 
     @Override
-    public String send (ITemplate template) {
+    public String send (TemplateSubstitute template) {
         wrapped.send(template);
         return "";
     }
