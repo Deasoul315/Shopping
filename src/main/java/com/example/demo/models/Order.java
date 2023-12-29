@@ -7,6 +7,24 @@ public class Order {
     private Vector<Pair<Product, Integer>> reciet;
     private boolean status;
 
+    private String location;
+
+    private Customer customer;
+    public String getLocation() {
+        return location;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public Vector<Pair<Product, Integer>> getReciet() {
         return reciet;
@@ -23,10 +41,14 @@ public class Order {
         this.status = status;
     }
 
-    public Order(Vector<Pair<Product, Integer>> reciet, boolean status) {
+
+    public Order(Vector<Pair<Product, Integer>> reciet, boolean status, String location, Customer customer) {
         this.reciet = reciet;
         this.status = status;
+        this.location = location;
+        this.customer = customer;
     }
+
     public void addReciet(Product prod, Integer amount) {
         this.reciet.add(new Pair<Product, Integer>(prod, amount));
     }

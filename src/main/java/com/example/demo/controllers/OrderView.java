@@ -1,15 +1,13 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Customer;
 import com.example.demo.models.Database;
 import com.example.demo.models.Order;
-import com.example.demo.models.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 @RestController
 @RequestMapping("/order")
-public class orderview {
+public class OrderView {
     private boolean validate(Order order) {
         // Add your validation logic here
         // For simplicity, let's assume the validation always passes in this example
