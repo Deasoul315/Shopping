@@ -1,9 +1,11 @@
 package com.example.demo.models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.example.demo.helpers.MyDate;
+import com.example.demo.helpers.MySchedule;
+import com.example.demo.helpers.Pair;
+import com.example.demo.services.INotifier;
+
+import java.util.*;
 
 public class Database {
     private static Database instance;
@@ -12,6 +14,8 @@ public class Database {
     private Map<Integer, Order> orders;
     private Map<Integer, CompoundOrder> compoundOrders;
     private Map<Integer, Category> categories;
+
+    private Queue<MySchedule> inProccessingOrders = new LinkedList<>();
 
     public Map<Integer, Product> getProducts() {
         return products;
@@ -86,6 +90,26 @@ public class Database {
 
     public void addCompoundOrder(CompoundOrder compoundOrder) {
         compoundOrders.put(compoundOrders.size(), compoundOrder);
+    }
+    public void addProccessOrder(Order order, MyDate date, INotifier notifier, String msg) {
+        inProccessingOrders.add(new MySchedule(date, order, notifier, msg));
+        orders.put(orders.size(), order);
+    }
+
+    public Queue<MySchedule> getInProccessingOrders() {
+        return inProccessingOrders;
+    }
+
+    public void setInProccessingOrders(Queue<MySchedule> inProccessingOrders) {
+        this.inProccessingOrders = inProccessingOrders;
+    }
+
+    public boolean removeProccessOrder(Integer id) {
+        if (orders.get(id) == null) {
+            return false;
+        }
+        inProccessingOrders.removeIf(orderMyDatePair -> orderMyDatePair.getOrder() == orders.get(id));
+        return  true;
     }
 
     // Methods for interacting with categories

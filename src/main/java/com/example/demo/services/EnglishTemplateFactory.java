@@ -9,7 +9,7 @@ public class EnglishTemplateFactory implements ITemplate {
     }
     @Override
     public IPlacingOrderTemplate createPlaceingOrderTemplate () {
-        IPlacingOrderTemplate template = new FrenchPlacingOrderTemplate();
+        IPlacingOrderTemplate template = new EnglishPlacingOrderTemplate();
         return template;
     }
 }

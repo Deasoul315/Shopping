@@ -8,6 +8,6 @@ public class EmailNotifier extends NotifierDecorator{
     @Override
     public String send(String template) {
         super.send(template);
-        return "email sent " + "\n";
+        return "email sent " +template+ "\n";
     }
 }

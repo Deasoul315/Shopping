@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.helpers.MyDate;
 import com.example.demo.helpers.Pair;
 import com.example.demo.models.*;
 
@@ -7,7 +8,7 @@ import java.util.Vector;
 
 public class CompoundOrderService implements IOrderService{
     @Override
-    public boolean order (Vector<Order> orders) {
+    public boolean order (Vector<Order> orders, MyDate date, INotifier notifier, String template) {
         double totalPrice = 0;
 
         for (int i = 0; i < orders.size(); i++) {

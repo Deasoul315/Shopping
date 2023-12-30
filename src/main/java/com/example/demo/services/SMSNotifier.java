@@ -9,6 +9,6 @@ public class SMSNotifier extends NotifierDecorator{
     @Override
     public String send(String template) {
         super.send(template);
-        return "sms sent " + "\n";
+        return "sms sent: " + template + "\n";
     }
 }

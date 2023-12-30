@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.helpers.MyDate;
 import com.example.demo.helpers.Pair;
 import com.example.demo.models.Customer;
 import com.example.demo.models.Database;
@@ -10,7 +11,7 @@ import java.util.Vector;
 
 public class SimpleOrderService implements IOrderService{
     @Override
-    public boolean order (Vector<Order> orders) {
+    public boolean order (Vector<Order> orders, MyDate date, INotifier notifier, String template) {
         double totalPrice = 0;
 
         Vector<Pair<Product, Integer>> receipt = orders.get(0).getReciet();
@@ -23,9 +24,8 @@ public class SimpleOrderService implements IOrderService{
         totalPrice += distances * 0.25;
         Customer customer = orders.get(0).getCustomer();
         if (totalPrice <= customer.getBalance()) {
-            customer.setBalance(customer.getBalance() - totalPrice);
-            Database DB = Database.getInstance();
-            DB.addOrder(orders.get(0));
+            OrderQueuingService oqs = new OrderQueuingService();
+            oqs.schedule(orders.get(0), date, notifier, template);
             return true;
         } else {
             return false;
