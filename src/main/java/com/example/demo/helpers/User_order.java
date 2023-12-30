@@ -4,6 +4,7 @@ import java.util.Vector;
 
 public class User_order {
     private Vector<Pair<String,Integer>> product;
+
     private String username;
 
     private String location;

@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import com.example.demo.helpers.MyCompoundSchedule;
 import com.example.demo.helpers.MyDate;
 import com.example.demo.helpers.MySchedule;
 import com.example.demo.helpers.Pair;
@@ -12,10 +13,16 @@ public class Database {
     private Map<Integer, Product> products;
     private Map<Integer, Customer> customers;
     private Map<Integer, Order> orders;
+
+    public void setCompoundOrders(Map<Integer, CompoundOrder> compoundOrders) {
+        this.compoundOrders = compoundOrders;
+    }
+
     private Map<Integer, CompoundOrder> compoundOrders;
     private Map<Integer, Category> categories;
 
     private Queue<MySchedule> inProccessingOrders = new LinkedList<>();
+    private Queue<MyCompoundSchedule> inProccessingCompoundOrders = new LinkedList<>();
 
     public Map<Integer, Product> getProducts() {
         return products;
@@ -95,15 +102,34 @@ public class Database {
         inProccessingOrders.add(new MySchedule(date, order, notifier, msg));
         orders.put(orders.size(), order);
     }
+    public void addProccessCompoundOrder(CompoundOrder order, MyDate date, INotifier notifier, String msg) {
+        inProccessingCompoundOrders.add(new MyCompoundSchedule(date, order, notifier, msg));
+        compoundOrders.put(orders.size(),order);
+    }
 
     public Queue<MySchedule> getInProccessingOrders() {
         return inProccessingOrders;
+    }
+
+    public Queue<MyCompoundSchedule> getInProccessingCompoundOrders() {
+        return inProccessingCompoundOrders;
+    }
+
+    public void setInProccessingCompoundOrders(Queue<MyCompoundSchedule> inProccessingCompoundOrders) {
+        this.inProccessingCompoundOrders = inProccessingCompoundOrders;
     }
 
     public void setInProccessingOrders(Queue<MySchedule> inProccessingOrders) {
         this.inProccessingOrders = inProccessingOrders;
     }
 
+    public boolean removeProccessCompoundOrder(Integer id) {
+        if (compoundOrders.get(id) == null) {
+            return false;
+        }
+        inProccessingCompoundOrders.removeIf(orderMyDatePair -> orderMyDatePair.getOrder() == compoundOrders.get(id));
+        return  true;
+    }
     public boolean removeProccessOrder(Integer id) {
         if (orders.get(id) == null) {
             return false;

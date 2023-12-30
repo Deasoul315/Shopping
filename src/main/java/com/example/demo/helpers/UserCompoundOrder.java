@@ -7,18 +7,20 @@ import java.util.Vector;
 
 public class UserCompoundOrder {
     private String username;
-    private Vector <UserOrderUntitled> uorders;
-    private String channal;
+    private MyDate date;
+    private Vector <FriendOrderUntitled> orders;
+    private String channel;
+    private String location;
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
+    public UserCompoundOrder(String username, MyDate date, Vector<FriendOrderUntitled> orders, String channel, String location, String language) {
+        this.username = username;
+        this.date = date;
+        this.orders = orders;
+        this.channel = channel;
+        this.location = location;
         this.language = language;
     }
 
-    private String location;
     private String language;
 
     public String getUsername() {
@@ -29,20 +31,28 @@ public class UserCompoundOrder {
         this.username = username;
     }
 
-    public Vector<UserOrderUntitled> getUorders() {
-        return uorders;
+    public MyDate getDate() {
+        return date;
     }
 
-    public void setUorders(Vector<UserOrderUntitled> uorders) {
-        this.uorders = uorders;
+    public void setDate(MyDate date) {
+        this.date = date;
     }
 
-    public String getChannal() {
-        return channal;
+    public Vector<FriendOrderUntitled> getUorders() {
+        return orders;
     }
 
-    public void setChannal(String channal) {
-        this.channal = channal;
+    public void setUorders(Vector<FriendOrderUntitled> uorders) {
+        this.orders = uorders;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public String getLocation() {
@@ -53,12 +63,11 @@ public class UserCompoundOrder {
         this.location = location;
     }
 
-    public UserCompoundOrder(String username, Vector<UserOrderUntitled> uorders, String channal, String location, String language) {
-        this.username = username;
-        this.uorders = uorders;
-        this.channal = channal;
-        this.location = location;
-        this.language = language;
+    public String getLanguage() {
+        return language;
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

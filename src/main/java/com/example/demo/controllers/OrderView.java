@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.helpers.MyCompoundSchedule;
 import com.example.demo.helpers.MySchedule;
 import com.example.demo.helpers.UserCompoundOrder;
 import com.example.demo.helpers.User_order;
@@ -20,86 +21,167 @@ public class OrderView {
         return true;
     }
 
-    @PostMapping("/create/compound")
+    @PostMapping("/compound/create")
     public String createCompound(@RequestBody UserCompoundOrder uorder) {
-        return "";
-//        IOrderService os=new SimpleOrderService();
-//        CompoundOrder corder=new CompoundOrder();
-//        Database db=Database.getInstance();
-//        Map<Integer, Customer> customers = db.getCustomers();
-//        for (Map.Entry<Integer, Customer>  entry : customers.entrySet()) {
-//
-//            if(entry.getValue().getUsername().equals(uorder.getUsername())){
-//                corder.setCustomer(entry.getValue());
-//                break;
-//            };
-//        }
-//        Map<Integer, Product> products = db.getProducts();
-//        for (int i = 0; i < uorder.getUorders().size(); i++) {
-//            Order friendOrder = new Order();
-//            friendOrder.setCustomer(corder.getCustomer());
-//            for (int j = 0; j < uorder.getUorders().get(i).getProduct().size() ; j++) {
-//                for (Map.Entry<Integer, Product> entry : products.entrySet()) {
-//                    if (entry.getValue().getName().equals(uorder.getUorders().get(i).getProduct().get(j))) {
-//                        friendOrder.addReciet(entry.getValue(),uorder.getUorders().get(i).getProduct().get(j).getSecond());
-//                        break;
-//                    } ;
-//                }
-//            }
-//            corder.addOrder(friendOrder);
-//        }
-//
-//        INotifier notfierplacing,notifiershipping;
-//
-//        ITemplate template=null;
-//
-//        if(uorder.getChannal().equals("sms"))
-//        {
-//
-//            notifiershipping=new SMSNotifier(new AppNotification(corder.getCustomer()));
-//            notfierplacing=new SMSNotifier(new AppNotification(corder.getCustomer()));
-//        }
-//        else if (uorder.getChannal().equals("email"))
-//        {
-//            notifiershipping=new EmailNotifier(new AppNotification(corder.getCustomer()));
-//            notfierplacing=new EmailNotifier(new AppNotification(corder.getCustomer()));
-//
-//        }
-//        else
-//        {
-//            return " should send email or sms ";
-//        }
-//        if (uorder.getLanguage().equals("fr"))
-//        {
-//            template=new FrenchTemplateFactory();
-//
-//        }
-//        else if (uorder.getLanguage().equals("en")) {
-//            template=new EnglishTemplateFactory();
-//        }
-//        if(template==null){
-//            return "language should be fr or en ";
-//        }
-//
-//        if (os.order(corder.getOrders())) {
-//            String output = "";
-//            for (int i = 0; i < corder.getOrders().size(); i++) {
-//                Vector<Product> prods = new Vector<Product>();
-//                for (int j = 0; j < corder.getOrders().get(i).getReciet().size(); j++) {
-//                    prods.add(corder.getOrders().get(i).getReciet().get(j).getFirst());
-//                }
-//                output += notifiershipping.send(template.createPlaceingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer(), prods));
-//                output += "\n";
-//                output += notfierplacing.send((template.createShippingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer())));
-//                output += "\n\n";
-//            }
-//
-//            return  output;
-//        } else {
-//            return "invalid order the order should have valid products, user and sufficient balance";
-//        }
+        if (uorder.getChannel() == null) {
+            return "channel must be selected";
+        }
+        if (uorder.getUorders() == null) {
+            return "orders must be set";
+        }
+        if (uorder.getLanguage() == null) {
+            return "language must not be empty";
+        }
+        if(uorder.getLocation() == null) {
+            return "location must not be empty";
+        }
+        if(uorder.getDate() == null) {
+            return "date of shipment must not be null";
+        }
+        if(uorder.getDate().getDay() == null) {
+            return "the day must not be null";
+        }
+        if(uorder.getDate().getMonth() == null) {
+            return "the month must not be null";
+        }
+        if(uorder.getDate().getYear() == null) {
+            return "the year must not be null";
+        }
+
+        IOrderService os=new CompoundOrderService();
+        CompoundOrder corder=new CompoundOrder();
+        Database db=Database.getInstance();
+        Map<Integer, Customer> customers = db.getCustomers();
+        for (Map.Entry<Integer, Customer>  entry : customers.entrySet()) {
+
+            if(entry.getValue().getUsername().equals(uorder.getUsername())){
+                corder.setCustomer(entry.getValue());
+                break;
+            };
+        }
+
+        Map<Integer, Product> products = db.getProducts();
+        for (int i = 0; i < uorder.getUorders().size(); i++) {
+            if (uorder.getUorders().get(i) == null) {
+                return "order must not be null";
+            }
+            for (int j = 0; j < uorder.getUorders().get(i).getProduct().size(); j++) {
+                if (uorder.getUorders().get(i).getProduct().get(j).getFirst() == null) {
+                    return "product name not be null";
+                }
+                if (uorder.getUorders().get(i).getProduct().get(j).getSecond() == null) {
+                    return "quantity must not be null";
+                }
+            }
+
+            Order friendOrder = new Order();
+            friendOrder.setCustomer(corder.getCustomer());
+            for (int j = 0; j < uorder.getUorders().get(i).getProduct().size() ; j++) {
+                for (Map.Entry<Integer, Product> entry : products.entrySet()) {
+                    if (entry.getValue().getName().equals(uorder.getUorders().get(i).getProduct().get(j).getFirst())) {
+                        friendOrder.addReciet(entry.getValue(),uorder.getUorders().get(i).getProduct().get(j).getSecond());
+                        break;
+                    } ;
+                }
+                if (j + 1 != friendOrder.getReciet().size()) {
+                    return uorder.getUorders().get(i).getProduct().get(j).getFirst() + " not found";
+                }
+                if (uorder.getUorders().get(i).getProduct().get(j).getSecond() < 0) {
+                    return uorder.getUorders().get(i).getProduct().get(j).getSecond().toString() + " negative value not allowed";
+                }
+            }
+            corder.addOrder(friendOrder);
+        }
+
+        for (int i = 0; i < uorder.getUorders().size(); i++) {
+            if(uorder.getUorders().get(i).getLocation() == null) {
+                return "location must not be empty";
+            }
+            corder.getOrders().get(i).setLocation(uorder.getUorders().get(i).getLocation());
+        }
+        INotifier notfierplacing,notifiershipping;
+
+        ITemplate template=null;
+
+        if(uorder.getChannel().equals("sms"))
+        {
+
+            notifiershipping=new SMSNotifier(new AppNotification(corder.getCustomer()));
+            notfierplacing=new SMSNotifier(new AppNotification(corder.getCustomer()));
+        }
+        else if (uorder.getChannel().equals("email"))
+        {
+            notifiershipping=new EmailNotifier(new AppNotification(corder.getCustomer()));
+            notfierplacing=new EmailNotifier(new AppNotification(corder.getCustomer()));
+
+        }
+        else
+        {
+            return " should send email or sms ";
+        }
+        if (uorder.getLanguage().equals("fr"))
+        {
+            template=new FrenchTemplateFactory();
+
+        }
+        else if (uorder.getLanguage().equals("en")) {
+            template=new EnglishTemplateFactory();
+        }
+        if(template==null){
+            return "language should be fr or en ";
+        }
+        String placingOutput = "", shippingOutput = "";
+        for (int i = 0; i < corder.getOrders().size(); i++) {
+            Vector<Product> prods = new Vector<Product>();
+            for (int j = 0; j < corder.getOrders().get(i).getReciet().size(); j++) {
+                prods.add(corder.getOrders().get(i).getReciet().get(j).getFirst());
+            }
+            placingOutput +=  template.createPlaceingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer(), prods) +'\n';
+            shippingOutput += notfierplacing.send((template.createShippingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer()))) ;
+        }
+        if (os.order(corder.getOrders(),uorder.getDate(), notifiershipping, shippingOutput)) {
+            return  placingOutput;
+        } else {
+            return "invalid order the order should have valid products, user and sufficient balance";
+        }
     }
-    @PostMapping("/create/simple")
+    @GetMapping("/compound/get")
+    public Map<Integer, CompoundOrder> browseCompoundOrder() {
+        Database db = Database.getInstance();
+        return db.getCompoundOrders();
+    }
+    @GetMapping("/compound/get_notification")
+    public Vector<CompoundOrder> browseCompoundShip() {
+        Database db = Database.getInstance();
+        Queue<MyCompoundSchedule> mqs = db.getInProccessingCompoundOrders();
+        Vector<CompoundOrder> orders = new Vector<>();
+        for (MyCompoundSchedule mySchedule : mqs) {
+            CompoundOrder order = mySchedule.getOrder();
+            orders.add(order);
+        }
+        return orders;
+    }
+    @PostMapping("/compound/ship")
+    public String compoundShip(@RequestParam(name = "id") Integer id) {
+        if (id == null) {
+            return "id must be provided";
+        }
+        IOrderQueuingService oqs = new CompoundOrderQueueingService();
+        return oqs.ship(id);
+    }
+    @PostMapping("/compound/cancel")
+    public String cancelCompoundShip(@RequestParam(name = "id") Integer id) {
+        if (id == null) {
+            return "id must be provided";
+        }
+        IOrderQueuingService oqs = new CompoundOrderQueueingService();
+        if (oqs.cancel(id) == true) {
+            return "shipment cancelled";
+        } else {
+            return "there is no order with such id";
+        }
+    }
+    @PostMapping("/simple/create")
     public String createSimple(@RequestBody User_order uorder) {
         if (uorder.getChannel() == null) {
             return "channel must be selected";
@@ -214,14 +296,12 @@ public class OrderView {
         }
     }
 
-    @GetMapping("/get")
+    @GetMapping("/simple/get")
     public Map<Integer, Order> browseOrder() {
-
-        BrowseOrderService bos = new BrowseOrderService();
-
-        return bos.browse();
+        Database db = Database.getInstance();
+        return db.getOrders();
     }
-    @GetMapping("/get/ship/get")
+    @GetMapping("/simple/get_notification")
     public Vector<Order> browseShip() {
         BrowserInProccessOrder bipo = new BrowserInProccessOrder();
         Queue<MySchedule> mySchedules = bipo.browse();
@@ -232,12 +312,24 @@ public class OrderView {
         }
         return orders;
     }
-    @PostMapping("/get/ship/create")
+    @PostMapping("/simple/ship")
     public String ship(@RequestParam(name = "id") Integer id) {
         if (id == null) {
             return "id must be provided";
         }
         OrderQueuingService oqs = new OrderQueuingService();
         return oqs.ship(id);
+    }
+    @PostMapping("/simple/cancel")
+    public String cancelShip(@RequestParam(name = "id") Integer id) {
+        if (id == null) {
+            return "id must be provided";
+        }
+        OrderQueuingService oqs = new OrderQueuingService();
+        if (oqs.cancel(id) == true) {
+            return "shipment cancelled";
+        } else {
+            return "there is no order with such id";
+        }
     }
 }

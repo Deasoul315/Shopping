@@ -15,22 +15,23 @@ import java.util.Date;
 import java.util.Queue;
 import java.util.Vector;
 
-public class OrderQueuingService {
-
-    public void schedule(Order order, MyDate date, INotifier notifier, String msg) {
+public class OrderQueuingService implements IOrderQueuingService{
+    @Override
+    public void schedule(Vector<Order> order, MyDate date, INotifier notifier, String msg) {
         Database db = Database.getInstance();
-        db.addProccessOrder(order, date, notifier, msg);
+        db.addProccessOrder(order.get(0), date, notifier, msg);
     }
+    @Override
     public boolean cancel(Integer id) {
         Database db = Database.getInstance();
-
         if (db.removeProccessOrder(id)) {
+            db.getOrders().remove(id);
             return true;
-//            return "order not found!";
         }
         return false;
-//        return "order has been removed successfully!";
+
     }
+    @Override
     public String ship(Integer id) {
         Database db = Database.getInstance();
         MySchedule schedule = db.getInProccessingOrders().stream().filter(obj -> db.getOrder(id) == obj.getOrder()).findFirst().orElse(null);

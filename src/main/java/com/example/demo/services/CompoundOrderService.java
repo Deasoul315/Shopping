@@ -24,13 +24,9 @@ public class CompoundOrderService implements IOrderService{
         totalPrice += distances * 0.25;
         Customer customer = orders.get(0).getCustomer();
         if (totalPrice <= customer.getBalance()) {
+            IOrderQueuingService oqs = new CompoundOrderQueueingService();
+            oqs.schedule(orders, date, notifier, template);
             customer.setBalance(customer.getBalance() - totalPrice);
-
-            Database DB = Database.getInstance();
-
-            CompoundOrder co= new CompoundOrder(orders, orders.get(0).getCustomer());
-            DB.addCompoundOrder(co);
-
             return true;
         } else {
             return false;

@@ -24,8 +24,10 @@ public class SimpleOrderService implements IOrderService{
         totalPrice += distances * 0.25;
         Customer customer = orders.get(0).getCustomer();
         if (totalPrice <= customer.getBalance()) {
-            OrderQueuingService oqs = new OrderQueuingService();
-            oqs.schedule(orders.get(0), date, notifier, template);
+            IOrderQueuingService oqs = new OrderQueuingService();
+            Vector<Order> v = new Vector<>();
+            v.add(orders.get(0));
+            oqs.schedule(v, date, notifier, template);
             return true;
         } else {
             return false;

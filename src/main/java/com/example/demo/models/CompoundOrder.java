@@ -27,7 +27,7 @@ public class CompoundOrder {
         this.customer = customer;
     }
 
-    private Vector<Order> orders;
+    private Vector<Order> orders = new Vector<>();
 
     private Customer customer;
 
