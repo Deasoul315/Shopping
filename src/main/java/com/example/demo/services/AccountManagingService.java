@@ -6,13 +6,13 @@ import com.example.demo.models.Database;
 import javax.xml.crypto.Data;
 
 public class AccountManagingService {
-   public boolean sign_up (String username, double balance, String lang) {
-        if (balance < 0 || (!lang.equals("en")  && ! lang.equals("fr") )) {
+   public boolean sign_up (String username, double balance) {
+        if (balance < 0) {
 
             return false;
         }
-//       System.out.println("7omaaar");
-        Customer customer = new Customer(username, balance, lang);
+
+        Customer customer = new Customer(username, balance);
         Database db = Database.getInstance();
         db.addCustomer(customer);
         return true;

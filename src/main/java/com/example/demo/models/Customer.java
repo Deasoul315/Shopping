@@ -5,7 +5,6 @@ import java.util.Vector;
 public class Customer {
     private String username;
     private double balance;
-    private String lang;
 
     public String getUsername() {
         return username;
@@ -23,17 +22,9 @@ public class Customer {
         this.balance = balance;
     }
 
-    public String getLang() {
-        return lang;
-    }
 
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public Customer(String username, double balance, String lang) {
+    public Customer(String username, double balance) {
         this.username = username;
         this.balance = balance;
-        this.lang = lang;
     }
 }

@@ -14,7 +14,7 @@ import java.util.Vector;
 
 @RestController
 @RequestMapping("/order")
-public class OrderView {
+public class OrderController {
     private boolean validate(Order order) {
         // Add your validation logic here
         // For simplicity, let's assume the validation always passes in this example
@@ -130,14 +130,14 @@ public class OrderView {
         if(template==null){
             return "language should be fr or en ";
         }
-        String placingOutput = "", shippingOutput = "";
+        String placingOutput = "", shippingOutput = "\n";
         for (int i = 0; i < corder.getOrders().size(); i++) {
             Vector<Product> prods = new Vector<Product>();
             for (int j = 0; j < corder.getOrders().get(i).getReciet().size(); j++) {
                 prods.add(corder.getOrders().get(i).getReciet().get(j).getFirst());
             }
             placingOutput +=  template.createPlaceingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer(), prods) +'\n';
-            shippingOutput += notfierplacing.send((template.createShippingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer()))) ;
+            shippingOutput += template.createShippingOrderTemplate().substitute(corder.getOrders().get(i).getCustomer()) + '\n';
         }
         if (os.order(corder.getOrders(),uorder.getDate(), notifiershipping, shippingOutput)) {
             return  placingOutput;

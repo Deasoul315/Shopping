@@ -26,7 +26,6 @@ public class CompoundOrderService implements IOrderService{
         if (totalPrice <= customer.getBalance()) {
             IOrderQueuingService oqs = new CompoundOrderQueueingService();
             oqs.schedule(orders, date, notifier, template);
-            customer.setBalance(customer.getBalance() - totalPrice);
             return true;
         } else {
             return false;

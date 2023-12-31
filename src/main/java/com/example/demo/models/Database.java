@@ -158,12 +158,12 @@ public class Database {
         this.addCategory(kitchen);
 
         // Add sample products
-        Product laptop = new Product("Laptop", electronics, 999.99, 10);
-        Product appleSmart = new Product("Apple Smart Phone", electronics, 888.99, 1);
-        Product shirt = new Product("T-Shirt", clothing, 19.99, 8);
-        Product jeans = new Product("Jeans", clothing, 80.99, 5);
-        Product coffeeMaker = new Product("Coffee Maker", kitchen, 108.99, 5);
-        Product cookWareSet = new Product("Cookware Set", kitchen, 80.99, 0);
+        Product laptop = new Product("Laptop", electronics, 999.99, 10, "IBM");
+        Product appleSmart = new Product("Apple Smart Phone", electronics, 888.99, 1, "apple");
+        Product shirt = new Product("T-Shirt", clothing, 19.99, 8, "unknown");
+        Product jeans = new Product("Jeans", clothing, 80.99, 5, "unknown");
+        Product coffeeMaker = new Product("Coffee Maker", kitchen, 108.99, 5, "Mulinex");
+        Product cookWareSet = new Product("Cookware Set", kitchen, 80.99, 0, "Toshiba");
         this.addProduct(laptop);
         this.addProduct(appleSmart);
         this.addProduct(shirt);
@@ -171,10 +171,10 @@ public class Database {
         this.addProduct(coffeeMaker);
         this.addProduct(cookWareSet);
 
-        Customer customer1 = new Customer("mostafa", 10180.0, "en");
-        Customer customer2 = new Customer("alhossini", 50011.0, "en");
-        Customer customer3 = new Customer("omar", 30011.0, "fr");
-        Customer customer4 = new Customer("sara", 20011.0, "fr");
+        Customer customer1 = new Customer("mostafa", 10180.0);
+        Customer customer2 = new Customer("alhossini", 50011.0);
+        Customer customer3 = new Customer("omar", 30011.0);
+        Customer customer4 = new Customer("sara", 20011.0);
         this.addCustomer(customer1);
         this.addCustomer(customer2);
         this.addCustomer(customer3);

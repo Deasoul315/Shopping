@@ -1,19 +1,15 @@
 package com.example.demo.controllers;
 
-import com.example.demo.helpers.Pair;
 import com.example.demo.models.Customer;
 import com.example.demo.models.Database;
-import com.example.demo.models.Order;
-import com.example.demo.models.Product;
 import com.example.demo.services.AccountManagingService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Vector;
+
 @RestController
 @RequestMapping("/account")
-public class AccountCreateView {
+public class AccountController {
 
     // Validation function
     private boolean validate(Customer customer) {
@@ -31,8 +27,7 @@ public class AccountCreateView {
     public String create(@RequestBody Customer customer) {
         AccountManagingService accountmanaging= new AccountManagingService() ;
 
-        if (accountmanaging.sign_up(customer.getUsername(),customer.getBalance(),customer.getLang())) {
-
+        if (accountmanaging.sign_up(customer.getUsername(),customer.getBalance())) {
             return "created successfully !!";
         } else {
 

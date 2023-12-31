@@ -1,0 +1,73 @@
+this are the postman available resources for the system
+
+http://localhost:8080/product/get
+http://localhost:8080/account/get
+http://localhost:8080/account/create
+http://localhost:8080/category/get
+
+http://localhost:8080/order/simple/get
+http://localhost:8080/order/simple/get_notification
+http://localhost:8080/order/simple/create
+http://localhost:8080/order/simple/cancel?id=0
+http://localhost:8080/order/simple/ship?id=0
+
+http://localhost:8080/order/compound/get
+http://localhost:8080/order/compound/get_notification
+http://localhost:8080/order/compound/create
+http://localhost:8080/order/compound/cancel?id=0
+http://localhost:8080/order/compound/ship?id=0
+
+create account sample
+{
+    "username":"hamada",
+    "balance":20000
+}
+
+create simple order sample
+{
+    "product": [
+                {"first":"Laptop", "second":1},
+                {"first":"Apple Smart Phone","second": 2},
+                {"first":"T-Shirt","second": 3}
+    ],
+    "username":"hamada",
+    "location":"giza",
+    "channel":"email",
+    "language":"en",
+    "date":{
+        "day":1,
+        "month":2,
+        "year":2023
+    }
+}
+
+create compound order sample
+{
+    "orders": [
+        {
+            "product": [
+                        {"first":"Laptop", "second":1},
+                        {"first":"Apple Smart Phone","second": 2},
+                        {"first":"T-Shirt","second": 3}
+            ],
+            "location":"giza"
+        },
+        {
+            "product": [
+                        {"first":"Laptop", "second":1},
+                        {"first":"Apple Smart Phone","second": 2},
+                        {"first":"T-Shirt","second": 3}
+            ],
+            "location":"moneib"
+        }
+    ],
+    "username":"hamada",
+    "location":"giza",
+    "channel":"email",
+    "language":"en",
+    "date":{
+        "day":1,
+        "month":2,
+        "year":2023
+    }
+}
